@@ -5,6 +5,7 @@ import helmet from "helmet";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import apiRouter from "./routes";
 
 class App {
   public readonly app: Application;
@@ -43,6 +44,7 @@ class App {
     });
 
     // TODO: mount API routes here (e.g., this.app.use('/api', apiRouter))
+    this.app.use("/api/v1", apiRouter);
   }
 
   private registerNotFound() {

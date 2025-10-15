@@ -1,0 +1,96 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// -------- ENUMS --------
+enum Department {
+  CARDIOLOGY
+  NEUROLOGY
+  PEDIATRICS
+  ORTHOPEDICS
+  RADIOLOGY
+  DERMATOLOGY
+  GENERAL_MEDICINE
+  GYNECOLOGY
+  ONCOLOGY
+  UROLOGY
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+// -------- MODELS --------
+model Doctor {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  firstName   String
+  lastName    String
+  email       String     @unique
+  phone       String
+  department  Department
+  gender      Gender
+  bio         String
+  images      String[] // Array of image URLs
+  socialLinks Json? // Object for FB, X, LinkedIn, etc.
+
+  specialties  DoctorSpecialty[] // Many-to-many via join collection
+  experiences  Experience[] // One-to-many
+  reviews      Review[] // One-to-many
+  availability Availability[] // One-to-many
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Specialty {
+  id      String            @id @default(auto()) @map("_id") @db.ObjectId
+  name    String            @unique
+  doctors DoctorSpecialty[]
+}
+
+model Experience {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  yearRange    String
+  department   String
+  hospitalName String
+  doctorId     String @db.ObjectId
+  doctor       Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id             String  @id @default(auto()) @map("_id") @db.ObjectId
+  review         String
+  patientPicture String?
+  rating         Int
+  name           String
+  doctorId       String  @db.ObjectId
+  doctor         Doctor  @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+}
+
+model Availability {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  day      String // e.g., "Monday"
+  slots    Json // e.g., [{start: "09:00", end: "12:00"}]
+  doctorId String @db.ObjectId
+  doctor   Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+}
+
+// Explicit many-to-many join model for Doctor <-> Specialty
+model DoctorSpecialty {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  doctorId    String @db.ObjectId
+  specialtyId String @db.ObjectId
+
+  doctor    Doctor    @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  specialty Specialty @relation(fields: [specialtyId], references: [id], onDelete: Cascade)
+
+  @@unique([doctorId, specialtyId])
+}
