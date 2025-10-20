@@ -7,6 +7,10 @@ export class ApiResponse {
     });
   }
 
+  static created(res: any, message: string, data?: any) {
+    return this.success(res, message, data, 201);
+  }
+
   static error(res: any, message: string, status = 500, errors?: any) {
     return res.status(status).json({
       success: false,

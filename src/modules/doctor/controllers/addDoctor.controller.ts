@@ -1,29 +1,25 @@
 import { Request, Response } from "express";
 import { DoctorService } from "../doctor.service";
 import { CreateDoctorInput } from "../doctor.types";
+import { ApiResponse } from "@/common/utils/ApiResponse";
 
+/**
+ * Create a new doctor
+ * Validation is handled by Zod middleware before this controller runs
+ */
 export const addDoctor = async (req: Request, res: Response) => {
   try {
-    const body = req.body as Partial<CreateDoctorInput>;
-    if (!body?.email) {
-      return res.status(400).json({ message: "email is required" });
-    }
-    if (!body?.firstName || !body?.lastName) {
-      return res
-        .status(400)
-        .json({ message: "firstName and lastName are required" });
-    }
-    if (!body?.department || !body?.gender || !body?.bio || !body?.phone) {
-      return res
-        .status(400)
-        .json({ message: "department, gender, bio and phone are required" });
-    }
+    // req.body is already validated and typed by Zod middleware
+    const doctorData = req.body as CreateDoctorInput;
 
-    const result = await DoctorService.addDoctor(body as CreateDoctorInput);
-    return res.status(201).json({ id: result.id, message: "Doctor created" });
+    const result = await DoctorService.addDoctor(doctorData);
+
+    return ApiResponse.created(res, "Doctor created successfully", {
+      id: result.id,
+    });
   } catch (err: any) {
     const status = err?.statusCode || 500;
     const message = err?.message || "Internal Server Error";
-    return res.status(status).json({ message });
+    return ApiResponse.error(res, message, status);
   }
 };
