@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { DoctorService } from "../doctor.service";
 import { CreateDoctorInput } from "../doctor.types";
-import { ApiResponse } from "@/common/utils/ApiResponse";
+import { ApiResponse } from "../../../common/utils/ApiResponse";
 
 /**
  * Create a new doctor

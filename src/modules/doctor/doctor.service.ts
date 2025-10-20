@@ -1,4 +1,4 @@
-import { ApiError } from "@/common/utils/ApiError";
+import { ApiError } from "../../common/utils/ApiError";
 import { CreateDoctorInput } from "./doctor.types";
 import { IDoctorService } from "./interfaces/doctor.service.interface";
 import { DoctorRepository } from "./doctor.repo";
