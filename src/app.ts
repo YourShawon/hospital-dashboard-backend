@@ -5,7 +5,9 @@ import helmet from "helmet";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import swaggerUi from "swagger-ui-express";
 import apiRouter from "./routes";
+import { swaggerSpec } from "./config/swagger";
 
 class App {
   public readonly app: Application;
@@ -43,7 +45,23 @@ class App {
         .json({ status: "ok", timestamp: new Date().toISOString() });
     });
 
-    // TODO: mount API routes here (e.g., this.app.use('/api', apiRouter))
+    // API Documentation (Swagger UI)
+    this.app.use(
+      "/api-docs",
+      swaggerUi.serve,
+      swaggerUi.setup(swaggerSpec, {
+        customSiteTitle: "Hospital Dashboard API Docs",
+        customCss: ".swagger-ui .topbar { display: none }",
+      })
+    );
+
+    // Serve OpenAPI spec as JSON
+    this.app.get("/api-docs.json", (_req: Request, res: Response) => {
+      res.setHeader("Content-Type", "application/json");
+      res.send(swaggerSpec);
+    });
+
+    // API routes
     this.app.use("/api/v1", apiRouter);
   }
 

@@ -20,6 +20,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
+    "@azure/storage-blob": "^12.29.1",
     "@prisma/client": "^6.17.1",
     "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
@@ -29,6 +30,8 @@
     "helmet": "^8.1.0",
     "mongodb": "^6.20.0",
     "morgan": "^1.10.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "uuid": "^13.0.0",
     "winston": "^3.18.3",
     "zod": "^4.1.12"
@@ -44,6 +47,8 @@
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.7.2",
     "@types/supertest": "^6.0.3",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "eslint": "^9.37.0",
     "eslint-config-prettier": "^10.1.8",
     "jest": "^30.2.0",
