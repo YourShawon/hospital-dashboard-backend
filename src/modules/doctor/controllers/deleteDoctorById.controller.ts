@@ -1,4 +1,4 @@
-import { ApiResponse } from "@/common/utils/ApiResponse";
+import { ApiResponse } from "../../../common/utils/ApiResponse";
 import { Request, Response } from "express";
 import logger from "../../../common/utils/logger";
 

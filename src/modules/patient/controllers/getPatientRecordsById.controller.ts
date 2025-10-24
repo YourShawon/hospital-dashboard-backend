@@ -1,23 +1,24 @@
-import { ApiResponse } from "../../../common/utils/ApiResponse";
 import { Request, Response } from "express";
+import { ApiResponse } from "../../../common/utils/ApiResponse";
 import logger from "../../../common/utils/logger";
 
 /**
- * Get a doctor's reviews
+ * Get patient records by ID
  * Validation is handled by Zod middleware before this controller runs
  */
-export const getDoctorReviews = async (req: Request, res: Response) => {
+export const getPatientRecordsById = async (req: Request, res: Response) => {
   try {
-    const { doctorId } = req.params;
-    // Logic to retrieve a doctor's reviews
-    return ApiResponse.success(res, "Doctor's reviews retrieved successfully", {
-      reviews: [], // Replace with actual reviews data
+    const { patientId } = req.params;
+
+    // Logic to retrieve patient records by ID
+    return ApiResponse.success(res, "Patient records retrieved successfully", {
+      records: [], // Replace with actual patient records data
     });
   } catch (error: any) {
     const status = error?.statusCode || 500;
     const message = error?.message || "Internal Server Error";
 
-    logger.error("Error retrieving doctor's reviews", {
+    logger.error("Error retrieving patient records", {
       error: message,
       statusCode: status,
       email: req.body?.email,

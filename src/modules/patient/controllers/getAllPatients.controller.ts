@@ -3,21 +3,20 @@ import { Request, Response } from "express";
 import logger from "../../../common/utils/logger";
 
 /**
- * Get a doctor's reviews
+ * Get all patients
  * Validation is handled by Zod middleware before this controller runs
  */
-export const getDoctorReviews = async (req: Request, res: Response) => {
+export const getAllPatients = async (req: Request, res: Response) => {
   try {
-    const { doctorId } = req.params;
-    // Logic to retrieve a doctor's reviews
-    return ApiResponse.success(res, "Doctor's reviews retrieved successfully", {
-      reviews: [], // Replace with actual reviews data
+    // Logic to retrieve all patients
+    return ApiResponse.success(res, "Patients retrieved successfully", {
+      patients: [], // Replace with actual patient data
     });
   } catch (error: any) {
     const status = error?.statusCode || 500;
     const message = error?.message || "Internal Server Error";
 
-    logger.error("Error retrieving doctor's reviews", {
+    logger.error("Error retrieving patients", {
       error: message,
       statusCode: status,
       email: req.body?.email,
