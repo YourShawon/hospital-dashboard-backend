@@ -17,7 +17,9 @@
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write src/**/*.ts",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "docs:export": "ts-node scripts/export-openapi.ts",
+    "docs:deploy": "bump deploy api-docs.json --doc $BUMP_DOC_SLUG --token $BUMP_TOKEN"
   },
   "dependencies": {
     "@azure/storage-blob": "^12.29.1",
